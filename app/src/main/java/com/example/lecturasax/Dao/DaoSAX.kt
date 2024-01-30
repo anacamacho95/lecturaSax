@@ -29,6 +29,17 @@ class DaoSAX(private val context: Context) {
                 // Imprime información sobre cada trabajador en el archivo XML
                 Log.d("SAX", "Trabajador: ${it.nombre} Edad: ${it.edad}")
             }
+
+            //edad media de trabajadores
+            var edadMedia=0
+            var cont=0
+            handler.trabajadores.forEach {
+                edadMedia+=it.edad
+                cont++
+            }
+            edadMedia=edadMedia/cont
+            Log.d("EdadMedia","Edad Media: $edadMedia" )
+
         } catch (e: Exception) {
             // Maneja las excepciones imprimiendo la traza en la consola
             e.printStackTrace()
