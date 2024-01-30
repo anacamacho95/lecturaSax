@@ -1,0 +1,14 @@
+<trabajadores>
+    <trabajador empresa="JulioVerne">
+        <nombre>Enrique</nombre>
+        <edad>50</edad>
+    </trabajador>
+    <trabajador empresa="Decathlon" lugar="Sevilla">
+        <nombre>Ana</nombre>
+        <edad>28</edad>
+    </trabajador>
+    <trabajador>
+        <nombre>Julian</nombre>
+        <edad>21</edad>
+    </trabajador>
+</trabajadores>
