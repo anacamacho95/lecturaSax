@@ -3,6 +3,7 @@ package com.example.lecturasax
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.lecturasax.Dao.DaoAssets
 import com.example.lecturasax.Dao.DaoSAX
 import org.simpleframework.xml.core.Persister
 import java.io.*
@@ -14,41 +15,58 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //1º forma lectura: probando SAX
+        Log.d("XMLSAX", "probando SAX")
         var daoSAX=DaoSAX(applicationContext)
         daoSAX.procesarArchivoAssetsXMLSAX()
+        Log.d("XMLSAX", "SAX terminado")
 
-        copiarArchivoDesdeAssets()
-        procesarArchivoAssetsXML()
-        Log.d("assetsXML", "probando procesado con Simple XML Framework")
-        //xml simple, sin trabajadores nuevos
-        trabajadores.forEach {
-            Log.d("assetsXML", it.nombre)
+        //2º forma lectura: probando lectura simple de carpeta Assets desde el DAO
+        Log.d("SimpleXML", "probando assets XML")
+        var daoAssets=DaoAssets(applicationContext)
+        daoAssets.procesarArchivoAssetsXML()
+        Log.d("SimpleXML", "probando procesado con Simple XML Framework")
+
+        //tambien podemos trabajar con la lista de trabajadores del DAO desde el MAIN
+        daoAssets.trabajadores.forEach(){
+            Log.d("trabajadores", "NoM: ${it.nombre}")
         }
+
+        //copio assets y lo pego en el archivo interno
+        daoAssets.copiarArchivoDesdeAssets()
+
 
         //xml con trabajadores nuevos
         val trabajador=Trabajador("Pablo")
-        addTrabajador(trabajador)
-        ProcesarArchivoXMLInterno()
+        daoAssets.addTrabajador(trabajador)
 
-        trabajadores.forEach {
-            Log.d("assetsPablo", it.nombre)
+        daoAssets.ProcesarArchivoXMLInterno()
+
+
+
+
+    }
+
+    /* TRABAJAR CON XML DESDE EL MAIN
+
+     private fun procesarArchivoXMLSAX() {
+        try {
+            val factory = SAXParserFactory.newInstance()
+            val parser = factory.newSAXParser()
+            val handler = ProfesorHandlerXML()
+
+            val inputStream = assets.open("profesores.xml")
+            parser.parse(inputStream, handler)
+
+            // Accede a la lista de profesores desde handler.profesores
+            handler.profesores.forEach {
+                Log.d("SAX", "Profesor: ${it.nombre}")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
-
-
     }
-
-    private fun copiarArchivoDesdeAssets() {
-        val nombreArchivo = "trabajadores.xml"
-        val archivoEnAssets = assets.open(nombreArchivo)
-        val archivoInterno = openFileOutput(nombreArchivo, MODE_PRIVATE)
-
-        archivoEnAssets.copyTo(archivoInterno)
-        archivoEnAssets.close()
-        archivoInterno.close()
-
-    }
-
     private fun procesarArchivoAssetsXML() {
         val serializer = Persister()
         var inputStream: InputStream? = null
@@ -71,6 +89,17 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun copiarArchivoDesdeAssets() {
+        val nombreArchivo = "trabajadores.xml"
+        val archivoEnAssets = assets.open(nombreArchivo)
+        val archivoInterno = openFileOutput(nombreArchivo, MODE_PRIVATE)
+
+        archivoEnAssets.copyTo(archivoInterno)
+        archivoEnAssets.close()
+        archivoInterno.close()
+
     }
 
     fun addTrabajador(trabajador: Trabajador) {
@@ -102,5 +131,5 @@ class MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
-
+    */
 }

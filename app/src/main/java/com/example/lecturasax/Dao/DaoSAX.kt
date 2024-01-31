@@ -3,10 +3,10 @@ package com.example.lecturasax.Dao
 import android.content.Context
 import android.util.Log
 import com.example.lecturasax.TrabajadorHandlerXML
+import com.example.lecturasax.Trabajadores
 import javax.xml.parsers.SAXParserFactory
 
 class DaoSAX(private val context: Context) {
-
     fun procesarArchivoAssetsXMLSAX() {
         try {
             // Crea una instancia de la fábrica de SAXParser
@@ -27,7 +27,7 @@ class DaoSAX(private val context: Context) {
             // Accede a la lista de trabajadores desde el handler (RutaHandler)
             handler.trabajadores.forEach {
                 // Imprime información sobre cada trabajador en el archivo XML
-                Log.d("SAX", "Trabajador: ${it.nombre} Edad: ${it.edad}")
+                Log.d("XMLSAX", "Trabajador: ${it.nombre} Edad: ${it.edad}")
             }
 
             //edad media de trabajadores
